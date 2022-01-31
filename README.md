@@ -1,2 +1,2 @@
-# Progects
+# Projects
 Evrthing's here
