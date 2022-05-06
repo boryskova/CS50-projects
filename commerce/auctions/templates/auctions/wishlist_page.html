@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Wishlist{% endblock %}
+
+{% block body %}
+    <h2 class="page-title">Your Wishlist</h2>
+
+    <div class="listing-block">
+        {% for lot in wishlist_listings %}
+            <div class="in-listing-block">
+                <div class="lot-block">
+                    <div class="container container-md-12">
+                        <div class="row">
+                            <div class="col-md-6 lot-image-block">
+                                <span class="lot-image"></span><img src="{{ lot.image.url }}" alt="{{ lot.image.title }}" class="rounded img-fluid">
+                            </div>
+                            <div class="col-md-6">
+                                <a href="/auctions/id={{ lot.id }}"><h4>{{ lot.name }}</h4></a>
+                                <h5>${{ lot.current_bid }}</h5>
+                                <div>{{ lot.description }}</div>
+                                <div class="remove-from-wishlist-form">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="lot_id" value="{{ lot.id }}">
+                                        <button type="submit" name="remove-from-wishlist-btn"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'auctions/layout.html' %}
+{% load widget_tweaks %}
+
+{% block title %}New Auction{% endblock %}
+
+{% block body %}
+
+    <h2 class="page-title">Add new lot</h2>
+
+    <form action="{% url 'index' %}" method="post" enctype="multipart/form-data" style="margin:40px;">
+        {% csrf_token %}
+
+        {% for field in form.visible_fields %}
+            <div class="row mb-3">
+                <label for="field.id_for_label" class="col-sm-2 col-form-label col-form-label-lg">{{ field.label }}</label>
+                <div class="col-sm-8">
+                    {% render_field field class="form-control" %}
+                </div>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Add Lot</button>
+    </form>
+
+{% endblock %}

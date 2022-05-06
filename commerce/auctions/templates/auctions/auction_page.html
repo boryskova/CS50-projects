@@ -1,0 +1,117 @@
+{% extends "auctions/layout.html" %}
+{% load widget_tweaks %}
+
+{% block title %}{{ lot.name }}{% endblock %}
+
+{% block body %}
+    
+    <div class="container container-sm-12 d-grid gap-3">
+        <div class="row">
+            <div class="col-sm-6 bg-light border">
+                <span class="lot-image"></span><img src="{{ lot.image.url }}" alt="{{ lot.image.title }}" class="rounded img-fluid">
+            </div>
+            <div class="col-sm-5">
+                <div class="d-grid gap-3"> 
+                    <div>
+                        <h3>{{ lot.name }}</h3>
+                    </div>
+                    <div class="lot-current-bid">${{ lot.current_bid }}</div>
+                    <div>Lot minimum bid: ${{ lot.minimum_bid }}</div>
+                    {% if lot.active == True %}
+                        <div>
+                            {% if user.is_authenticated %}
+                                {% if lot.user == request.user %}
+                                    <form action="{% url 'auction_page' %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" name="close-auction-btn" class="btn btn-primary">Close Auction</button>
+                                    </form>
+                                {% else %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ message }}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <form method="post">
+                                        {% csrf_token %}
+
+                                        {% for field in biddingform.visible_fields %}
+                                            {% render_field field class="form-control" %}
+                                        {% endfor %}
+                                        <div class="lot-button">
+                                            <button type="submit" class="btn btn-primary">Add Bid</button>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                Log in to add your bid
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div>This auction is closed</div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                    <div class="alert alert-info" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+                    <div>
+                        {% if lot.user == request.user %}
+                            <h6>Proposed by You</h6>
+                        {% else %}
+                            <h6>Proposed by {{ lot.user }}</h6>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h6>Description</h6>
+                        <p>{{ lot.description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                {% if lot.active == True and user.is_authenticated %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if in_wishlist %}
+                            <button type="submit" name="remove-from-wishlist-btn"><i class="fa fa-trash"></i></button>
+                        {% else %}
+                            <button type="submit" name="add-to-wishlist-btn"><i class="fa fa-heart"></i></button>
+                        {% endif %}
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6" style="padding: 0;">
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% for field in commentingform.visible_fields %}
+                        {% render_field field class="form-control" %}
+                    {% endfor %}
+                    <div class="lot-button">
+                        <button type="submit" name="add-comment-btn" class="btn btn-outline-primary">Comment</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6">
+                {% for comment in comments %}
+                    <div class="card lot-button">
+                        <h6 class="card-header">{{ comment.user }} on {{ comment.added }}</h6>
+                        <div class="card-body">
+                            <p class="card-text">{{ comment.comment_text }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
