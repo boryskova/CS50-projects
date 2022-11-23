@@ -1,0 +1,20 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search Results
+{% endblock %}
+
+{% block body %}
+    <h2>Search Results</h2>
+
+    <ul>
+        {% if entries %}
+            {% for entry in entries %}
+                <li><a href="/wiki/{{ entry }}">{{ entry }}</a></li>
+            {% endfor %}
+        {% else %}
+            <h3 class="page_error" style="position: relative; text-align: center; top: 50px;">Sorry, we don't have this info.</h3>
+        {% endif %}
+    </ul>
+
+{% endblock %}

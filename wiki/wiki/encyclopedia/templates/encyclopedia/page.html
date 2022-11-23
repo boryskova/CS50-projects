@@ -1,0 +1,16 @@
+{% extends "encyclopedia/layout.html" %}
+
+    {% block title %} {{ page_title }} {% endblock %}
+
+    {% block body %}
+    {% if page %}
+        {{ page | safe }}
+    {% else %}
+        <h3 class="page_error" style="position: relative; text-align: center; top: 50px;">Sorry, we don't have this page.</h3>
+    {% endif %}
+
+        <form action="/edit_page/{{ page_title }}">
+            <input type="submit" value="Edit Page">
+        </form>
+
+    {% endblock %}

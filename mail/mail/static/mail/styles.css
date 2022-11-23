@@ -1,0 +1,51 @@
+#compose-body {
+    min-height: 400px;
+}
+
+#emails-view-row {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    border: solid;
+    border-width: 1.5px;
+    border-color: rgb(164, 178, 196);
+    border-radius: 5px;
+}
+
+#emails-view-row:hover {
+    border-width: 2px;
+    border-color: rgb(165, 168, 199);
+}
+
+#email-archive {
+    display: flex;
+    justify-content: end;
+}
+
+#email-body {
+    display: block;
+    padding: 10px;
+    min-width: 380px;
+    width: auto;
+    min-height: 400px;
+    border: solid;
+    border-width: 1.5px;
+    border-color: rgb(164, 178, 196); 
+    border-radius: 5px;
+}
+
+#email-data div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+h6 {
+    margin-bottom: 0;
+    margin-right: 3px;
+}
+
+#email-reply-btn {
+    margin-top: 5px;
+}
+

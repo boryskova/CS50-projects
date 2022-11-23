@@ -1,0 +1,27 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}New Auction{% endblock %}
+
+{% block body %}
+    <h2 class="page-titile">Create New Auction</h2>
+
+    {% if messages %}
+        <div class="alert">
+            <span class="closebttn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <ul>
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form action="{% url 'new_page' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <div id="button">
+            <input type="submit" value="Save">
+        </div>
+    </form>
+
+{% endblock %}
